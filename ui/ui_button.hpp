@@ -1,57 +1,59 @@
-//@	{"targets":[{"name":"ui_button.hpp","type":"include"}]}
+//@	{
+//@	 "targets":[{"name":"ui_button.hpp","type":"include"}]
+//@	,"dependencies_extra":[{"ref":"ui_button.o","rel":"implementation"}]
+//@	}
 
-#ifndef CITYPLAY_UICONTAINER_HPP
-#define CITYPLAY_UICONTAINER_HPP
+#ifndef CITYPLAY_UIBUTTON_HPP
+#define CITYPLAY_UIBUTTON_HPP
 
 #include "./ui_container.hpp"
 
+#include <utility>
+
 namespace Cityplan
 	{
-	class Button
+	class UiButton
 		{
 		public:
-			explicit Button(Container& container,const char* label);
-			~Button();
+			explicit UiButton(UiContainer& container, const char* label);
+			~UiButton();
 
-			Button& operator=(Button&& obj) noexcept
+			UiButton& operator=(UiButton&& obj) noexcept
 				{
-				std::swap(obj.m_impl,m_impl);
+				std::swap(obj.m_impl, m_impl);
 				return *this;
 				}
 
-			Button(Button&& obj) noexcept:m_impl(obj.m_impl)
+			UiButton(UiButton&& obj) noexcept:m_impl(obj.m_impl)
 				{obj.m_impl=nullptr;}
 
 			template<class Callback, class IdType, IdType id>
-			Button& callback(Callback& cb)
+			UiButton& callback(Callback& cb)
 				{
-				auto cb_wrapper=[](void* rvc,Button& self)
+				auto cb_wrapper=[](void* rvc, UiButton& self)
 					{
 					auto x=reinterpret_cast<Callback*>(rvc);
-					auto id=static_cast<IdType>(self.id());
 					x->template clicked<id>(self);
 					};
-				return callback(cb_wrapper,&cb,static_cast<int>(id));
+				return callback(cb_wrapper, &cb);
 				}
 
 			const char* label() const noexcept;
 
-			Button& label(const char* text);
+			UiButton& label(const char* text);
 
-			int id() const noexcept;
-
-			Button& state(bool s) noexcept;
+			UiButton& state(bool s) noexcept;
 
 			bool state() const noexcept;
 
-			Button& focus() noexcept;
+			UiButton& focus() noexcept;
 
 		private:
 			class Impl;
-			explicit Button(Impl& impl):m_impl(&impl){}
+			explicit UiButton(Impl& impl):m_impl(&impl){}
 			Impl* m_impl;
-			typedef void (*Callback)(void* cb_obj,Button& self);
-			Button& callback(Callback cb,void* cb_obj,int id);
+			typedef void (*Callback)(void* cb_obj,UiButton& self);
+			UiButton& callback(Callback cb,void* cb_obj,int id);
 		};
 	}
 
