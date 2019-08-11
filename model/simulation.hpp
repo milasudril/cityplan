@@ -1,5 +1,6 @@
 //@	{
 //@	 "targets":[{"name":"simulation.hpp","type":"include"}]
+//@	,"dependencies_extra":[{"ref":"simulation.o","rel":"implementation"}]
 //@	}
 
 #ifndef CITYPLAN_SIMULATION_HPP
@@ -12,21 +13,12 @@ namespace Cityplan
 	class Simulation
 		{
 		public:
-			explicit Simulation() : rng{"/dev/urandom"}{}
+			explicit Simulation();
 
-			void run()
-				{
-				while(makeNewBlock(m_city, [dim_min = m_dim_min](auto const& blocks_new)
-					{
-					return area(blocks_new.first) > area(Rectangle{dim_min});
-					});
-				}
-
-			void reset()
-				{city.clear();}
+			Simulation& run();
 
 			City const& city() const
-				{return city;}
+				{return m_city;}
 
 			Simulation& city(City&& c)
 				{
@@ -44,7 +36,7 @@ namespace Cityplan
 				}
 
 		private:
-			std::random_device rng;
+			std::random_device m_rng;
 			Dimension m_dim_min;
 			City m_city;
 		};
