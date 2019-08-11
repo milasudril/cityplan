@@ -50,21 +50,26 @@ namespace Cityplan
 	auto getSplitDirection(Block const& block, Rng& rng)
 		{
 		if(width(block) < height(block))
-			{return SplitMode::Horizontal;}
-		if(width(block) > height(block)
-			{return SplitMode::Vertical;}
+			{return SplitDirection::Horizontal;}
+		if(width(block) > height(block))
+			{return SplitDirection::Vertical;}
 		std::uniform_int_distribution<int> dirSelector{0, 1};
-		return dirSelector(rng) == 0? SplitMode::Horizontal : SplitMode::Vertical;
+		return dirSelector(rng) == 0? SplitDirection::Horizontal : SplitDirection::Vertical;
 		}
 
-	template<class Rng>
-	void makeNewBlock(City& city Rng& rng)
+	template<class Rng, class AcceptFun>
+	bool makeNewBlock(City& city, Rng& rng, AcceptFun&& blockAccepted)
 		{
-		std::uniform_int_distribution<size_t> blockSelector{0, city.size() - 1};
+		std::uniform_int_distribution<size_t> blockSelector{0, city.blockCount() - 1};
 		auto block_index = blockSelector(rng);
 		auto& block = city.getBlock(block_index);
 		auto result = split(block, getSplitDirection(block, rng));
-		city.update(block_index, result.first).append(result.second);
+		if(blockAccepted(result))
+			{
+			city.update(block_index, result.first).append(result.second);
+			return true;
+			}
+		return false;
 		}
 	}
 
