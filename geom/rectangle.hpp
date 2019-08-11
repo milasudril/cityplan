@@ -1,10 +1,15 @@
-//@	{"targets":[{"name":"rectangle.hpp","type":"include"}]}
+//@	{
+//@	 "targets":[{"name":"rectangle.hpp","type":"include"}]
+//@ ,"dependencies_extra":[{"ref":"rectangle.o","rel":"implementation"}]
+//@	}
 
 #ifndef CITYPLAY_RECTANGLE_HPP
 #define CITYPLAY_RECTANGLE_HPP
 
 #include "./position.hpp"
 #include "./dimension.hpp"
+
+#include <utility>
 
 namespace Cityplan
 	{
@@ -76,6 +81,10 @@ namespace Cityplan
 			Position m_origin;
 			Dimension m_dim;
 		};
+
+	enum class SplitDirection:int{Vertical, Horizontal};
+
+	std::pair<Rectangle, Rectangle> split(Rectangle const& r, SplitDirection dir);
 	}
 
 #endif

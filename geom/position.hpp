@@ -32,9 +32,33 @@ namespace Cityplan
 				return *this;
 				}
 
+			Position& operator+=(Vec2 offset)
+				{
+				m_val+=offset;
+				return *this;
+				}
+
+			Position& operator-=(Vec2 offset)
+				{
+				m_val+=offset;
+				return *this;
+				}
+
 		private:
 			Vec2 m_val;
 		};
+
+	inline Position operator-(Position p, Vec2 offset)
+		{
+		p-=offset;
+		return p;
+		}
+
+	inline Position operator+(Position p, Vec2 offset)
+		{
+		p+=offset;
+		return p;
+		}
 	}
 
 #endif
