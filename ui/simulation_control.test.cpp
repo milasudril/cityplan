@@ -1,6 +1,7 @@
 //@	{"targets":[{"name":"simulation_control.test","type":"application", "autorun":1,"pkgconfig_libs":["gtk+-3.0"]}]}
 
 #include "./simulation_control.hpp"
+#include "./simulation_view.hpp"
 
 #include <gtk/gtk.h>
 
@@ -22,7 +23,8 @@ namespace Test
 		{
 		Cityplan::Simulation sim{Cityplan::Dimension{}.width(1).height(1)};
 		UiContainerStub container;
-		Cityplan::SimulationControl simCtrl{sim, container, Cityplan::UiBox::Orientation::Horizontal};
+		Cityplan::SimulationView view{sim, container};
+		Cityplan::SimulationControl simCtrl{sim, view, container, Cityplan::UiBox::Orientation::Horizontal};
 		}
 	}
 

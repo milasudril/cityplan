@@ -8,6 +8,8 @@
 
 #include "./ui_container.hpp"
 
+#include "geom/dimension.hpp"
+
 #include <utility>
 
 namespace Cityplan
@@ -47,6 +49,8 @@ namespace Cityplan
 				}
 
 			UiWindow& modal(bool state);
+
+			UiWindow& defaultSize(Dimension dim);
 
 			static void terminateApp();
 

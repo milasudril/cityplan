@@ -53,6 +53,10 @@ class UiWindow::Impl final:private UiWindow
 			gtk_window_set_modal(m_handle,state);
 			}
 
+		void defaultSize(Dimension dim)
+			{gtk_window_set_default_size(m_handle, dim.width(), dim.height());}
+
+
 	private:
 		static gboolean delete_callback(GtkWidget* widget,GdkEvent* event,void* user_data);
 
@@ -141,7 +145,11 @@ gboolean UiWindow::Impl::delete_callback(GtkWidget* widget,GdkEvent* event,void*
 	return TRUE;
 	}
 
- void UiWindow::terminateApp()
+UiWindow& UiWindow::defaultSize(Dimension dim)
 	{
-	gtk_main_quit();
+	m_impl->defaultSize(dim);
+	return *this;
 	}
+
+ void UiWindow::terminateApp()
+	{gtk_main_quit();}

@@ -7,6 +7,7 @@
 #include "./ui_box.hpp"
 #include "./ui_button.hpp"
 #include "./ui_window.hpp"
+#include "./simulation_view.hpp"
 
 #include "model/simulation.hpp"
 
@@ -15,8 +16,10 @@ namespace Cityplan
 	class SimulationControl
 		{
 		public:
-			explicit SimulationControl(Simulation& sim, UiContainer& container, UiBox::Orientation orientation):
+			explicit SimulationControl(Simulation& sim, SimulationView& view, UiContainer& container, UiBox::Orientation orientation):
 				 r_sim{sim}
+				,r_view{view}
+				,m_city_initial{sim.city()}
 				,m_box{container, orientation}
 				,m_load_state
 					{
@@ -28,6 +31,7 @@ namespace Cityplan
 				,m_gen_new{m_box, "Discard & generate new"}
 				,m_qsave_new{m_box, "Save & generate new"}
 				{
+				m_city_initial = r_sim.city();
 				m_load_state.callback<0>(*this);
 				m_gen_new.callback<1>(*this);
 				m_qsave_new.callback<2>(*this);
@@ -37,7 +41,12 @@ namespace Cityplan
 			void clicked(UiButton& btn)
 				{
 				btn.state(false);
-				printf("Hej %d\n", id);
+				if constexpr(id == 1)
+					{
+					r_sim.city(City{m_city_initial}).run();
+					}
+
+				r_view.update();
 				}
 
 			template<int id>
@@ -48,6 +57,9 @@ namespace Cityplan
 
 		private:
 			Simulation& r_sim;
+			SimulationView& r_view;
+
+			City m_city_initial;
 
 			UiBox m_box;
 			UiButton m_load_state;

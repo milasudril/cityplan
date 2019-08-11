@@ -28,7 +28,7 @@ namespace Cityplan
 			SimulationView(SimulationView&& obj) noexcept:m_impl(obj.m_impl)
 				{obj.m_impl=nullptr;}
 
-			void update();
+			SimulationView& update();
 
 		private:
 			class Impl;

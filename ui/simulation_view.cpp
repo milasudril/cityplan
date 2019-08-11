@@ -13,6 +13,9 @@ class SimulationView::Impl:private SimulationView
 		Impl(Simulation& sim, UiContainer& cnt);
 		~Impl();
 
+		void update()
+			{gtk_widget_queue_draw(GTK_WIDGET(m_handle));}
+
 	private:
 		Simulation& r_sim;
 		GtkDrawingArea* m_handle;
@@ -30,6 +33,7 @@ SimulationView::Impl::Impl(Simulation& sim, UiContainer& cnt):SimulationView(*th
 	{
 	auto widget=gtk_drawing_area_new();
 	m_handle=GTK_DRAWING_AREA(widget);
+	g_signal_connect(GTK_WIDGET(widget), "draw", G_CALLBACK(render), this);
 	g_object_ref_sink(widget);
 	cnt.add(widget);
 	}
@@ -41,7 +45,13 @@ SimulationView::Impl::~Impl()
 	g_object_unref(m_handle);
 	}
 
-void draw(Rectangle const& r, Dimension viewport, cairo_t* cr)
+SimulationView& SimulationView::update()
+	{
+	m_impl->update();
+	return *this;
+	}
+
+static void draw(Rectangle const& r, Dimension viewport, cairo_t* cr)
 	{
 	auto o = Vec2{0.5, 0.5}*viewport;
 	auto scale = 0.75*std::min(viewport.width(), viewport.height())/1300; // TODO: Set scale from ctrl
