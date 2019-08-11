@@ -1,11 +1,17 @@
-//@	{"targets":[{"name":"ui_box.hpp","type":"include"}]}
+//@	{
+//@	 "targets":[{"name":"ui_box.hpp","type":"include"}]
+//@	,"dependencies_extra":[{"ref":"ui_box.o","rel":"implementation"}]
+//@	}
 
-#ifndef CITYPLAY_UICONTAINER_HPP
-#define CITYPLAY_UICONTAINER_HPP
+#ifndef CITYPLAN_UIBOX_HPP
+#define CITYPLAN_UIBOX_HPP
+
+#include "./ui_container.hpp"
+#include "geom/rectangle.hpp"
 
 namespace Cityplan
 	{
-	class UiBox final: public UiContainer
+	class UiBox : public UiContainer
 		{
 		public:
 			static constexpr unsigned short FILL=1;
@@ -18,33 +24,31 @@ namespace Cityplan
 
 			enum class Orientation : int{Vertical, Horizontal};
 
-			explicit Box(Container& parent, Orientation orientation, int global_spacing=2);
-			~Box();
+			explicit UiBox(UiContainer& parent, Orientation orientation, int global_spacing=2);
+			~UiBox();
 
-			Box& operator=(Box&& obj) noexcept
+			UiBox& operator=(UiBox&& obj) noexcept
 				{
 				std::swap(obj.m_impl,m_impl);
 				return *this;
 				}
 
-			Box(Box&& obj) noexcept:m_impl(obj.m_impl)
+			UiBox(UiBox&& obj) noexcept:m_impl(obj.m_impl)
 				{obj.m_impl=nullptr;}
 
-			Box& add(void* handle);
-			Box& show();
-			Box& sensitive(bool val);
+			UiBox& add(void* handle);
+			UiBox& show();
+			UiBox& sensitive(bool val);
 			void* toplevel() const;
 
-			Box& homogenous(bool status) noexcept;
-			Box& insertMode(const InsertMode& mode) noexcept;
+			UiBox& homogenous(bool status) noexcept;
+			UiBox& insertMode(const InsertMode& mode) noexcept;
 
-			Box& alignment(float x) noexcept;
+			UiBox& alignment(float x) noexcept;
 
-			Rectangle boundingBox() const noexcept;
-
-		private:
+		protected:
 			class Impl;
-			explicit Box(Box::Impl& impl):m_impl(&impl){}
+			explicit UiBox(UiBox::Impl& impl):m_impl(&impl){}
 			Impl* m_impl;
 		};
 	}

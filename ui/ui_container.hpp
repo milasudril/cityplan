@@ -8,10 +8,10 @@ namespace Cityplan
 	class UiContainer
 		{
 		public:
-			virtual ~Container() = default;
-			virtual Container& add(void* handle) = 0;
-			virtual Container& show() = 0;
-			virtual Container& sensitive(bool val) = 0;
+			virtual ~UiContainer() = default;
+			virtual UiContainer& add(void* handle) = 0;
+			virtual UiContainer& show() = 0;
+			virtual UiContainer& sensitive(bool val) = 0;
 			virtual void* toplevel() const = 0;
 		};
 
