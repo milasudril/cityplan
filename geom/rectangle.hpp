@@ -10,7 +10,6 @@
 #include "./dimension.hpp"
 
 #include <utility>
-#include <cmath>
 
 namespace Cityplan
 	{
