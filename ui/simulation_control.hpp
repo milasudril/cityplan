@@ -14,7 +14,7 @@ namespace Cityplan
 	class SimulationControl
 		{
 		public:
-			explicit SimulationControl(Simulation& sim, UiContainer& container, UiBoxOrientation orientation);
+			explicit SimulationControl(Simulation& sim, UiContainer& container, UiBox::Orientation orientation);
 
 		private:
 			UiBox m_box;
