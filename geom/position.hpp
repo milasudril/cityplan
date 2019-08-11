@@ -3,12 +3,14 @@
 #ifndef CITYPLAY_POSITION_HPP
 #define CITYPLAY_POSITION_HPP
 
+#include "vec2.hpp"
+
 namespace Cityplan
 	{
 	class Position
 		{
 		public:
-			using Scalar = double;
+			using Scalar = decltype(declval<Vec2>()[0]);
 
 			Scalar x() const
 				{return m_val[0];}
@@ -29,8 +31,7 @@ namespace Cityplan
 				}
 
 		private:
-			using vec2 __attribute__((vector_size(16))) = double;
-			vec2 m_val;
+			Vec2 m_val;
 		};
 	}
 
