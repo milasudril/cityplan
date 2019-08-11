@@ -40,7 +40,7 @@ namespace Cityplan
 
 			Position& operator-=(Vec2 offset)
 				{
-				m_val+=offset;
+				m_val-=offset;
 				return *this;
 				}
 
