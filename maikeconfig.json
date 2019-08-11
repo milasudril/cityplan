@@ -42,7 +42,7 @@
                 "cflags_extra":[],
                 "cflags_format":"-^",
                 "cxxversion_max":-1,
-                "cxxversion_min":0,
+                "cxxversion_min":201703,
                 "dllcompile":{
                     "args":[
                         "-g",

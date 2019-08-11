@@ -27,7 +27,7 @@ namespace Cityplan
 			UiButton(UiButton&& obj) noexcept:m_impl(obj.m_impl)
 				{obj.m_impl=nullptr;}
 
-			template<class Callback, class IdType, IdType id>
+			template<auto id, class Callback>
 			UiButton& callback(Callback& cb)
 				{
 				auto cb_wrapper=[](void* rvc, UiButton& self)
@@ -53,7 +53,7 @@ namespace Cityplan
 			explicit UiButton(Impl& impl):m_impl(&impl){}
 			Impl* m_impl;
 			typedef void (*Callback)(void* cb_obj,UiButton& self);
-			UiButton& callback(Callback cb,void* cb_obj,int id);
+			UiButton& callback(Callback cb, void* cb_obj);
 		};
 	}
 

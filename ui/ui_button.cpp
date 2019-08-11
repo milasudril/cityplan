@@ -12,11 +12,10 @@ class UiButton::Impl:private UiButton
 		Impl(UiContainer& cnt,const char* label);
 		~Impl();
 
-		void callback(Callback cb,void* cb_obj,int id)
+		void callback(Callback cb, void* cb_obj)
 			{
 			r_cb=cb;
 			r_cb_obj=cb_obj;
-			m_id=id;
 			}
 
 		const char* label() const noexcept
@@ -24,9 +23,6 @@ class UiButton::Impl:private UiButton
 
 		void label(const char* text) noexcept
 			{return gtk_button_set_label(GTK_BUTTON(m_handle),text);}
-
-		int id() const noexcept
-			{return m_id;}
 
 		void state(bool s) noexcept
 			{
@@ -43,12 +39,11 @@ class UiButton::Impl:private UiButton
 			{gtk_widget_grab_focus(GTK_WIDGET(m_handle));}
 
 	private:
-		int m_id;
 		Callback r_cb;
 		void* r_cb_obj;
 		GtkToggleButton* m_handle;
 
-		static void clicked_callback(GtkWidget* widget,gpointer data);
+		static void clicked_callback(GtkWidget* widget, gpointer data);
 		static gboolean focus_in_callback(GtkWidget* widget,GdkEvent* event,gpointer user_data);
 	};
 
@@ -58,9 +53,9 @@ UiButton::UiButton(UiContainer& cnt,const char* label)
 UiButton::~UiButton()
 	{delete m_impl;}
 
-UiButton& UiButton::callback(Callback cb,void* cb_obj,int id)
+UiButton& UiButton::callback(Callback cb, void* cb_obj)
 	{
-	m_impl->callback(cb,cb_obj,id);
+	m_impl->callback(cb, cb_obj);
 	return *this;
 	}
 
@@ -93,7 +88,7 @@ bool UiButton::state() const noexcept
 
 
 
-UiButton::Impl::Impl(UiContainer& cnt,const char* lab):UiButton(*this),m_id(0)
+UiButton::Impl::Impl(UiContainer& cnt,const char* lab):UiButton(*this)
 	,r_cb(nullptr)
 	{
 	auto widget=gtk_toggle_button_new();
@@ -112,9 +107,9 @@ UiButton::Impl::~Impl()
 	g_object_unref(m_handle);
 	}
 
-void UiButton::Impl::clicked_callback(GtkWidget* widget,gpointer data)
+void UiButton::Impl::clicked_callback(GtkWidget* widget, gpointer data)
 	{
 	auto state=reinterpret_cast<Impl*>(data);
 	if(state->r_cb!=nullptr)
-		{state->r_cb(state->r_cb_obj,*state);}
+		{state->r_cb(state->r_cb_obj, *state);}
 	}
