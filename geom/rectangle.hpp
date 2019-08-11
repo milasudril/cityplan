@@ -3,6 +3,9 @@
 #ifndef CITYPLAY_RECTANGLE_HPP
 #define CITYPLAY_RECTANGLE_HPP
 
+#include "./position.hpp"
+#include "./dimension.hpp"
+
 namespace Cityplan
 	{
 	class Rectangle
@@ -18,7 +21,7 @@ namespace Cityplan
 
 			Rectangle& x0(Coordinate c)
 				{
-				m_origin.x0(c);
+				m_origin.x(c);
 				return *this;
 				}
 
@@ -27,7 +30,7 @@ namespace Cityplan
 
 			Rectangle& y0(Coordinate c)
 				{
-				m_origin.y0(c);
+				m_origin.y(c);
 				return *this;
 				}
 
