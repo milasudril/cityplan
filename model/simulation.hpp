@@ -13,7 +13,7 @@ namespace Cityplan
 	class Simulation
 		{
 		public:
-			explicit Simulation();
+			explicit Simulation(Dimension dim_min);
 
 			Simulation& run();
 

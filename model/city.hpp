@@ -10,6 +10,8 @@
 #include <vector>
 #include <random>
 
+#include <cassert>
+
 namespace Cityplan
 	{
 	using Block = Rectangle;  // For now, should be a distinct type
@@ -17,10 +19,16 @@ namespace Cityplan
 	class City
 		{
 		public:
-			City& append(Block const& block)
+			City& append(Block const& block) &
 				{
 				m_blocks.push_back(block);
 				return *this;
+				}
+
+			City&& append(Block const& block) &&
+				{
+				m_blocks.push_back(block);
+				return std::move(*this);
 				}
 
 			City& update(size_t block_index, Block const& new_block)
@@ -60,6 +68,7 @@ namespace Cityplan
 	template<class Rng, class AcceptFun>
 	bool makeNewBlock(City& city, Rng& rng, AcceptFun&& blockAccepted)
 		{
+		assert(city.blockCount() != 0);
 		std::uniform_int_distribution<size_t> blockSelector{0, city.blockCount() - 1};
 		auto block_index = blockSelector(rng);
 		auto& block = city.getBlock(block_index);

@@ -1,5 +1,5 @@
 //@	{
-//@	 "targets":[{"name":"city.test.cpp","type":"application","autorun":1}]
+//@	 "targets":[{"name":"city.test","type":"application","autorun":1}]
 //@	}
 
 #include "city.hpp"
