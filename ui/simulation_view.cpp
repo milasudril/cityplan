@@ -55,7 +55,7 @@ static void draw(Rectangle const& r, Dimension viewport, cairo_t* cr)
 	{
 	auto o = Vec2{0.5, 0.5}*viewport;
 	auto scale = 0.75*std::min(viewport.width(), viewport.height())/1300; // TODO: Set scale from ctrl
-	auto o_x = o.width();
+	auto o_x = o.width();  // Compute midpoint
 	auto o_y = o.height();
 
 	auto dim_rect = Vec2{0.5, 0.5}*r.dimension();

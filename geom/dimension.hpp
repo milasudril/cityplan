@@ -38,6 +38,9 @@ namespace Cityplan
 				return *this;
 				}
 
+			auto offsetVector() const
+				{return m_val;}
+
 		private:
 			Vec2 m_val;
 		};

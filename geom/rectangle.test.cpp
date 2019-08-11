@@ -12,7 +12,7 @@ namespace Test
 	{
 	void cityplanRectangleSplitVertical()
 		{
-		Cityplan::Rectangle a{Cityplan::Position{}.x(0).y(0), Cityplan::Dimension{}.width(1).height(1)};
+		Cityplan::Rectangle a{Cityplan::Position{}.x(0).y(0), Cityplan::Dimension{}.width(2).height(2)};
 
 		auto res = split(a, Cityplan::SplitDirection::Vertical);
 		assert(width(res.first) == 0.5 * width(a));
@@ -28,7 +28,7 @@ namespace Test
 
 	void cityplanRectangleSplitHorizontal()
 		{
-		Cityplan::Rectangle a{Cityplan::Position{}.x(0).y(0), Cityplan::Dimension{}.width(1).height(1)};
+		Cityplan::Rectangle a{Cityplan::Position{}.x(0).y(0), Cityplan::Dimension{}.width(2).height(2)};
 
 		auto res = split(a, Cityplan::SplitDirection::Horizontal);
 		assert(height(res.first) == 0.5 * height(a));
