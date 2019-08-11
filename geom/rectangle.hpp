@@ -10,6 +10,7 @@
 #include "./dimension.hpp"
 
 #include <utility>
+#include <cmath>
 
 namespace Cityplan
 	{
@@ -45,6 +46,15 @@ namespace Cityplan
 		};
 
 	enum class SplitDirection:int{Vertical, Horizontal};
+
+	inline auto width(Rectangle const& r)
+		{return r.dimension().width();}
+
+	inline auto height(Rectangle const& r)
+		{return r.dimension().height();}
+
+	inline auto area(Rectangle const& r)
+		{return width(r) * height(r);}
 
 	std::pair<Rectangle, Rectangle> split(Rectangle const& r, SplitDirection dir);
 	}
