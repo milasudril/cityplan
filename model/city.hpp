@@ -45,6 +45,7 @@ namespace Cityplan
 			std::vector<Block> m_blocks;
 		};
 
+	 // TODO: Should be moved to "Block" class
 	template<class Rng>
 	auto getSplitDirection(Block const& block, Rng& rng)
 		{
