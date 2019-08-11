@@ -67,35 +67,35 @@ namespace Test
 
 	void cityplanMakeNewBlockAccept()
 		{
-		Cityplan::City s;
-		s.append(Cityplan::Block
+		Cityplan::City c;
+		c.append(Cityplan::Block
 			{
 			 Cityplan::Position{}.x(0).y(0)
 			,Cityplan::Dimension{}.width(2).height(1)
 			});
 
-		assert(s.blockCount() == 1);
+		assert(c.blockCount() == 1);
 		DummyRng rng{false};
-		auto res = makeNewBlock(s, rng, [](auto const&)
+		auto res = makeNewBlock(c, rng, [](auto const&)
 			{return true;});
 		assert(res == true);
-		assert(s.blockCount() == 2);
+		assert(c.blockCount() == 2);
 		}
 
 	void cityplanMakeNewBlockReject()
 		{
-		Cityplan::City s;
-		s.append(Cityplan::Block
+		Cityplan::City c;
+		c.append(Cityplan::Block
 			{
 			 Cityplan::Position{}.x(0).y(0)
 			,Cityplan::Dimension{}.width(1).height(1)
 			});
 
-		assert(s.blockCount() == 1);
+		assert(c.blockCount() == 1);
 		DummyRng rng{false};
-		auto res = makeNewBlock(s, rng, [](auto const){return false;});
+		auto res = makeNewBlock(c, rng, [](auto const){return false;});
 		assert(res == true);
-		assert(s.blockCount() == 1);
+		assert(c.blockCount() == 1);
 		}
 	}
 

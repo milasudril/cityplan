@@ -21,6 +21,9 @@ namespace Cityplan
 
 			explicit Rectangle(Position origin, Dimension dim):m_origin{origin}, m_dim{dim}{}
 
+			explicit Rectangle(Dimension dim):m_dim{dim}  // Leave position undefined
+				{}
+
 			Position position() const
 				{return m_origin;}
 
