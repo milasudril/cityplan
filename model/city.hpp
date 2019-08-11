@@ -8,7 +8,7 @@
 #include "geom/rectangle.hpp"
 
 #include <vector>
-
+#include <random>
 
 namespace Cityplan
 	{
@@ -44,6 +44,27 @@ namespace Cityplan
 		private:
 			std::vector<Block> m_blocks;
 		};
+
+	template<class Rng>
+	auto getSplitDirection(Block const& block, Rng& rng)
+		{
+		if(width(block) < height(block))
+			{return SplitMode::Horizontal;}
+		if(width(block) > height(block)
+			{return SplitMode::Vertical;}
+		std::uniform_int_distribution<int> dirSelector{0, 1};
+		return dirSelector(rng) == 0? SplitMode::Horizontal : SplitMode::Vertical;
+		}
+
+	template<class Rng>
+	void makeNewBlock(City& city Rng& rng)
+		{
+		std::uniform_int_distribution<size_t> blockSelector{0, city.size() - 1};
+		auto block_index = blockSelector(rng);
+		auto& block = city.getBlock(block_index);
+		auto result = split(block, getSplitDirection(block, rng));
+		city.update(block_index, result.first).append(result.second);
+		}
 	}
 
 #endif
