@@ -2,6 +2,8 @@
 //@	 "targets":[{"name":"city.test","type":"application","autorun":1}]
 //@	}
 
+#undef NDEBUG
+
 #include "city.hpp"
 
 #include <cassert>

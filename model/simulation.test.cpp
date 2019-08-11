@@ -2,6 +2,8 @@
 //@	 "targets":[{"name":"simulation.test","type":"application", "autorun":1}]
 //@	}
 
+#undef NDEBUG
+
 #include "simulation.hpp"
 
 #include <cassert>
@@ -31,10 +33,7 @@ namespace Test
 		auto& city = sim.city();
 		assert(std::all_of(std::begin(city), std::end(city)
 			, [min_dim = area(Cityplan::Rectangle{sim.minDimension()})](auto const& block)
-			{
-			printf("%.15g\n", area(block));
-			return area(block) > min_dim;
-			}));
+			{return area(block) > min_dim;}));
 		}
 	}
 

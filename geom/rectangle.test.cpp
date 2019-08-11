@@ -1,5 +1,7 @@
 //@	{"targets":[{"name":"rectangle.test","type":"application", "autorun":1}]}
 
+#undef NDEBUG
+
 #include "rectangle.hpp"
 
 #include <cassert>
