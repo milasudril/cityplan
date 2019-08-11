@@ -27,8 +27,9 @@ namespace Cityplan
 				}
 
 			template<int id>
-			void clicked(UiButton&)
+			void clicked(UiButton& btn)
 				{
+				btn.state(false);
 				printf("Hej %d\n", id);
 				}
 

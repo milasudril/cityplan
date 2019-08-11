@@ -25,7 +25,7 @@ namespace Cityplan
 			enum class Orientation : int{Vertical, Horizontal};
 
 			explicit UiBox(UiContainer& parent, Orientation orientation, int global_spacing=2);
-			~UiBox();
+			~UiBox() override;
 
 			UiBox& operator=(UiBox&& obj) noexcept
 				{
@@ -36,9 +36,9 @@ namespace Cityplan
 			UiBox(UiBox&& obj) noexcept:m_impl(obj.m_impl)
 				{obj.m_impl=nullptr;}
 
-			UiBox& add(void* handle);
-			UiBox& show();
-			UiBox& sensitive(bool val);
+			UiBox& add(void* handle) override;
+			UiBox& show() override;
+			UiBox& sensitive(bool val) override;
 			void* toplevel() const;
 
 			UiBox& homogenous(bool status) noexcept;
