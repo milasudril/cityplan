@@ -5,12 +5,14 @@
 
 #include "vec2.hpp"
 
+#include <utility>
+
 namespace Cityplan
 	{
 	class Dimension
 		{
 		public:
-			using Scalar = decltype(declval<Vec2>()[0]);
+			using Scalar = decltype(std::declval<Vec2>()[0]);
 
 			Scalar width() const
 				{return m_val[0];}
@@ -24,7 +26,7 @@ namespace Cityplan
 			Scalar height() const
 				{return m_val[1];}
 
-			Dimension& y(Scalar c)
+			Dimension& height(Scalar c)
 				{
 				m_val[1] = c;
 				return *this;

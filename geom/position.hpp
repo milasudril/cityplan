@@ -3,14 +3,16 @@
 #ifndef CITYPLAY_POSITION_HPP
 #define CITYPLAY_POSITION_HPP
 
-#include "vec2.hpp"
+#include "./vec2.hpp"
+
+#include <utility>
 
 namespace Cityplan
 	{
 	class Position
 		{
 		public:
-			using Scalar = decltype(declval<Vec2>()[0]);
+			using Scalar = decltype(std::declval<Vec2>()[0]);
 
 			Scalar x() const
 				{return m_val[0];}

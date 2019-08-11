@@ -12,7 +12,7 @@ namespace Cityplan
 		{
 		public:
 			using Length = Dimension::Scalar;
-			ussing Coordinate = Position::Scalar;
+			using Coordinate = Position::Scalar;
 
 			explicit Rectangle(Position origin, Dimension dim):m_origin{origin}, m_dim{dim}{}
 
@@ -37,9 +37,9 @@ namespace Cityplan
 			Position position() const
 				{return m_origin;}
 
-			Position& position(Position o)
+			Rectangle& position(Position origin)
 				{
-				m_origin = o;
+				m_origin = origin;
 				return *this;
 				}
 
@@ -57,7 +57,7 @@ namespace Cityplan
 			Length height() const
 				{return m_dim.height();}
 
-			Rectangle& height(Length l) const
+			Rectangle& height(Length l)
 				{
 				m_dim.height(l);
 				return *this;
@@ -66,13 +66,11 @@ namespace Cityplan
 			Dimension dimension() const
 				{return m_dim;}
 
-			Dimension& dimension(Dimension d)
+			Rectangle& dimension(Dimension dim)
 				{
-				m_dim = o;
+				m_dim = dim;
 				return *this;
 				}
-
-
 
 		private:
 			Position m_origin;
