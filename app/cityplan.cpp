@@ -11,6 +11,7 @@ int main(int argc, char* argv[])
 	Cityplan::UiWindow mainwin{"Cityplan"};
 	Cityplan::Simulation sim{Cityplan::Dimension{}.width(20).height(20)};
 	Cityplan::SimulationControl sim_ctrl{sim, mainwin, Cityplan::UiBox::Orientation::Horizontal};
+	mainwin.callback<0>(sim_ctrl);
 	mainwin.show();
 	gtk_main();
 	}

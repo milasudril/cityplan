@@ -140,3 +140,8 @@ gboolean UiWindow::Impl::delete_callback(GtkWidget* widget,GdkEvent* event,void*
 		{self->m_cb(self->r_cb_obj, *self);}
 	return TRUE;
 	}
+
+ void UiWindow::terminateApp()
+	{
+	gtk_main_quit();
+	}

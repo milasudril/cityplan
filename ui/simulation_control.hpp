@@ -6,6 +6,7 @@
 #include "./ui_container.hpp"
 #include "./ui_box.hpp"
 #include "./ui_button.hpp"
+#include "./ui_window.hpp"
 
 #include "model/simulation.hpp"
 
@@ -31,6 +32,12 @@ namespace Cityplan
 				{
 				btn.state(false);
 				printf("Hej %d\n", id);
+				}
+
+			template<int id>
+			void closing(UiWindow&)
+				{
+				UiWindow::terminateApp();
 				}
 
 		private:

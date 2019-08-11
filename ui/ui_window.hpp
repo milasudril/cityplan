@@ -40,13 +40,15 @@ namespace Cityplan
 				{
 				auto cb_wrapper=[](void* rvc, UiWindow& self)
 					{
-					auto x=reinterpret_cast<Callback*>(rvc);
+					auto x=reinterpret_cast<UiWindowCallback*>(rvc);
 					x->template closing<id>(self);
 					};
 				return callback(cb_wrapper, &cb);
 				}
 
 			UiWindow& modal(bool state);
+
+			static void terminateApp();
 
 		protected:
 
