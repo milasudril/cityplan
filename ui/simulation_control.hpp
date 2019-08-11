@@ -18,9 +18,15 @@ namespace Cityplan
 			explicit SimulationControl(Simulation& sim, UiContainer& container, UiBox::Orientation orientation):
 				 r_sim{sim}
 				,m_box{container, orientation}
-				,m_load_state{m_box, "Load state"}
-				,m_gen_new{m_box, "Gen new"}
-				,m_qsave_new{m_box, "Save and gen new"}
+				,m_load_state
+					{
+					 m_box
+						.homogenous(true)
+						.insertMode(UiBox::InsertMode{0, UiBox::FILL|UiBox::EXPAND})
+					,"Load state"
+					}
+				,m_gen_new{m_box, "Discard & generate new"}
+				,m_qsave_new{m_box, "Save & generate new"}
 				{
 				m_load_state.callback<0>(*this);
 				m_gen_new.callback<1>(*this);
