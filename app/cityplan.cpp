@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 	Cityplan::SimulationView sim_view
 		{
 		 sim
-		,box.insertMode(Cityplan::UiBox::InsertMode{0, Cityplan::UiBox::FILL|Cityplan::UiBox::EXPAND})
+		,box.insertMode(Cityplan::UiBox::InsertMode{0, Cityplan::UiBox::FILL|Cityplan::UiBox::EXPAND|Cityplan::UiBox::POSITION_BACK})
 		};
 	Cityplan::SimulationControl sim_ctrl{sim, sim_view, box.insertMode(Cityplan::UiBox::InsertMode{0, 0}), Cityplan::UiBox::Orientation::Horizontal};
 	mainwin.callback<0>(sim_ctrl);

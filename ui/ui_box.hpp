@@ -16,6 +16,7 @@ namespace Cityplan
 		public:
 			static constexpr unsigned short FILL=1;
 			static constexpr unsigned short EXPAND=2;
+			static constexpr unsigned short POSITION_BACK=4;
 			struct InsertMode
 				{
 				unsigned short padding;

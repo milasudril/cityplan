@@ -16,8 +16,16 @@ class UiBox::Impl final:private UiBox
 
 		void _add(GtkWidget* handle) noexcept
 			{
-			gtk_box_pack_start(m_handle,handle,m_mode.flags&EXPAND,m_mode.flags&FILL
-				,m_mode.padding);
+			if(m_mode.flags & POSITION_BACK)
+				{
+				gtk_box_pack_end(m_handle, handle, m_mode.flags&EXPAND, m_mode.flags&FILL
+					, m_mode.padding);
+				}
+			else
+				{
+				gtk_box_pack_start(m_handle, handle, m_mode.flags&EXPAND, m_mode.flags&FILL
+					, m_mode.padding);
+				}
 			}
 
 		void _show() noexcept
