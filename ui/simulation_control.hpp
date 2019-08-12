@@ -10,6 +10,7 @@
 #include "./simulation_view.hpp"
 
 #include "model/simulation.hpp"
+#include "io/load_rects.hpp"
 
 namespace Cityplan
 	{
@@ -40,12 +41,20 @@ namespace Cityplan
 			template<int id>
 			void clicked(UiButton& btn)
 				{
-				btn.state(false);
+				if constexpr(id == 0)
+					{
+					auto data_new = loadRects("/dev/stdin");
+					if(data_new.size() != 0)
+						{
+						m_city_initial.blocks(std::move(data_new));
+						r_sim.city(City{m_city_initial});
+						}
+					}
 				if constexpr(id == 1)
 					{
 					r_sim.city(City{m_city_initial}).run();
 					}
-
+				btn.state(false);
 				r_view.update();
 				}
 

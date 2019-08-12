@@ -31,6 +31,18 @@ namespace Cityplan
 				return std::move(*this);
 				}
 
+			City& blocks(std::vector<Block>&& blocks_new) &
+				{
+				m_blocks = std::move(blocks_new);
+				return *this;
+				}
+
+			City&& blocks(std::vector<Block>&& blocks_new) &&
+				{
+				m_blocks = std::move(blocks_new);
+				return std::move(*this);
+				}
+
 			City& update(size_t block_index, Block const& new_block)
 				{
 				m_blocks[block_index] = new_block;

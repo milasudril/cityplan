@@ -25,6 +25,7 @@ namespace Cityplan
 				case State::Normal:
 					if((ch_in>=0 && ch_in<=' ') || ch_in == EOF)
 						{
+						printf(">>> [%s]\n", buffer.c_str());
 						switch(k % 4)
 							{
 							case 0:
@@ -48,6 +49,8 @@ namespace Cityplan
 						state_current = State::Whitespace;
 						++k;
 						}
+					else
+						{buffer+=ch_in;}
 					break;
 				case State::Whitespace:
 					if(ch_in == EOF)
