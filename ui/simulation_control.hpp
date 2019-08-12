@@ -7,6 +7,7 @@
 #include "./ui_box.hpp"
 #include "./ui_button.hpp"
 #include "./ui_window.hpp"
+#include "./ui_filenameselect.hpp"
 #include "./simulation_view.hpp"
 
 #include "model/simulation.hpp"
@@ -41,19 +42,27 @@ namespace Cityplan
 			template<int id>
 			void clicked(UiButton& btn)
 				{
-				if constexpr(id == 0)
+				try
 					{
-					auto data_new = loadRects("/dev/stdin");
-					if(data_new.size() != 0)
+					if constexpr(id == 0)
 						{
-						m_city_initial.blocks(std::move(data_new));
-						r_sim.city(City{m_city_initial});
+						if(filenameSelect(m_box, ".", m_filename, FilenameSelectMode::OPEN, [](auto){return true;}, nullptr))
+							{
+							auto data_new = loadRects(m_filename.c_str());
+							if(data_new.size() != 0)
+								{
+								m_city_initial.blocks(std::move(data_new));
+								r_sim.city(City{m_city_initial});
+								}
+							}
+						}
+					if constexpr(id == 1)
+						{
+						r_sim.city(City{m_city_initial}).run();
 						}
 					}
-				if constexpr(id == 1)
-					{
-					r_sim.city(City{m_city_initial}).run();
-					}
+				catch(...)
+					{}
 				btn.state(false);
 				r_view.update();
 				}
@@ -69,6 +78,7 @@ namespace Cityplan
 			SimulationView& r_view;
 
 			City m_city_initial;
+			std::string m_filename;
 
 			UiBox m_box;
 			UiButton m_load_state;

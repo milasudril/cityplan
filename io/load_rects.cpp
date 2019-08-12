@@ -25,7 +25,6 @@ namespace Cityplan
 				case State::Normal:
 					if((ch_in>=0 && ch_in<=' ') || ch_in == EOF)
 						{
-						printf(">>> [%s]\n", buffer.c_str());
 						switch(k % 4)
 							{
 							case 0:
