@@ -30,6 +30,7 @@ namespace Cityplan
 						.insertMode(UiBox::InsertMode{0, UiBox::FILL|UiBox::EXPAND})
 					,"Load state"
 					}
+				,m_reload_current{m_box, "Reload current"}
 				,m_gen_new{m_box, "Discard & generate new"}
 				,m_qsave_new{m_box, "Save & generate new"}
 				{
@@ -37,6 +38,7 @@ namespace Cityplan
 				m_load_state.callback<0>(*this);
 				m_gen_new.callback<1>(*this);
 				m_qsave_new.callback<2>(*this);
+				m_reload_current.callback<3>(*this);
 				}
 
 			template<int id>
@@ -60,6 +62,15 @@ namespace Cityplan
 						{
 						r_sim.city(City{m_city_initial}).run();
 						}
+					if constexpr(id == 3)
+						{
+						auto data_new = loadRects(m_filename.c_str());
+						if(data_new.size() != 0)
+							{
+							m_city_initial.blocks(std::move(data_new));
+							r_sim.city(City{m_city_initial});
+							}
+						}
 					}
 				catch(...)
 					{}
@@ -82,6 +93,7 @@ namespace Cityplan
 
 			UiBox m_box;
 			UiButton m_load_state;
+			UiButton m_reload_current;
 			UiButton m_gen_new;
 			UiButton m_qsave_new;
 		};
