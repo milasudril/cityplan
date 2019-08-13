@@ -12,6 +12,7 @@
 
 #include "model/simulation.hpp"
 #include "io/load_rects.hpp"
+#include "io/export_wavefront.hpp"
 
 namespace Cityplan
 	{
@@ -22,6 +23,7 @@ namespace Cityplan
 				 r_sim{sim}
 				,r_view{view}
 				,m_city_initial{sim.city()}
+				,m_count{0}
 				,m_box{container, orientation}
 				,m_load_state
 					{
@@ -55,13 +57,16 @@ namespace Cityplan
 								{
 								m_city_initial.blocks(std::move(data_new));
 								r_sim.city(City{m_city_initial});
+								m_count = 0;
 								}
 							}
 						}
 					if constexpr(id == 1)
-						{
-						r_sim.city(City{m_city_initial}).run();
-						}
+						{r_sim.city(City{m_city_initial}).run();}
+
+					if constexpr(id == 2)
+						{}
+
 					if constexpr(id == 3)
 						{
 						auto data_new = loadRects(m_filename.c_str());
@@ -90,6 +95,7 @@ namespace Cityplan
 
 			City m_city_initial;
 			std::string m_filename;
+			size_t m_count;
 
 			UiBox m_box;
 			UiButton m_load_state;
