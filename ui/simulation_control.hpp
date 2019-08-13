@@ -19,6 +19,8 @@ namespace Cityplan
 	class SimulationControl
 		{
 		public:
+			enum class Action: int {Load, Reload, GenNew, Qsave};
+
 			explicit SimulationControl(Simulation& sim, SimulationView& view, UiContainer& container, UiBox::Orientation orientation):
 				 r_sim{sim}
 				,r_view{view}
@@ -37,18 +39,18 @@ namespace Cityplan
 				,m_qsave_new{m_box, "Save & generate new"}
 				{
 				m_city_initial = r_sim.city();
-				m_load_state.callback<0>(*this);
-				m_gen_new.callback<1>(*this);
-				m_qsave_new.callback<2>(*this);
-				m_reload_current.callback<3>(*this);
+				m_reload_current.callback<Action::Reload>(*this);
+				m_load_state.callback<Action::Load>(*this);
+				m_gen_new.callback<Action::GenNew>(*this);
+				m_qsave_new.callback<Action::Qsave>(*this);
 				}
 
-			template<int id>
+			template<Action id>
 			void clicked(UiButton& btn)
 				{
 				try
 					{
-					if constexpr(id == 0)
+					if constexpr(id == Action::Load)
 						{
 						if(filenameSelect(m_box, ".", m_filename, FilenameSelectMode::OPEN, [](auto){return true;}, nullptr))
 							{
@@ -61,13 +63,18 @@ namespace Cityplan
 								}
 							}
 						}
-					if constexpr(id == 1)
+					if constexpr(id == Action::GenNew)
 						{r_sim.city(City{m_city_initial}).run();}
 
-					if constexpr(id == 2)
-						{}
+					if constexpr(id == Action::Qsave)
+						{
+						auto filename = m_filename + "_" + std::to_string(m_count) + ".obj";
+						exportWavefront(r_sim.city().begin(), r_sim.city().end(), filename.c_str());
+						r_sim.city(City{m_city_initial}).run();
+						++m_count;
+						}
 
-					if constexpr(id == 3)
+					if constexpr(id == Action::Reload)
 						{
 						auto data_new = loadRects(m_filename.c_str());
 						if(data_new.size() != 0)
@@ -103,7 +110,6 @@ namespace Cityplan
 			UiButton m_gen_new;
 			UiButton m_qsave_new;
 		};
-
 	}
 
 #endif
