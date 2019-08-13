@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <cmath>
 
+using namespace Cityplan;
+
 namespace
 	{
 	struct Vertex
@@ -26,7 +28,7 @@ namespace
 		std::array<Vertex, 8> verts;
 		static constexpr std::array<Quad, 6> v_index
 			{
-			Quad{3, 2, 1, 0}
+			 Quad{3, 2, 1, 0}
 			,Quad{4, 5, 6, 7}
 			,Quad{0, 1, 5, 4}
 			,Quad{1, 2, 6, 5}
@@ -37,10 +39,10 @@ namespace
 
 	constexpr std::array<Quad, 6> Octmesh::v_index;
 
-	Octmesh makeBox(Cityplan::Rectangle const& r, double h_max, double margin)
+	Octmesh makeBox(Rectangle const& r, double h_max, double margin)
 		{
 		auto h = std::min(sqrt(area(r)), h_max);
-		auto d_half = Cityplan::Vec2{0.5, 0.5}*r.dimension();
+		auto d_half = Vec2{0.5, 0.5}*r.dimension();
 		auto pos = r.position();
 		Octmesh ret
 			{
@@ -58,21 +60,17 @@ namespace
 		}
 	}
 
-namespace Cityplan
+void Cityplan::exportWavefront(Rectangle const* begin, Rectangle const* end, FILE* output)
 	{
-
-	void exportWavefront(Rectangle const* begin, Rectangle const* end, FILE* output)
+	fprintf(output, "o BlockMask\n");
+	std::for_each(begin, end, [output, k=0](auto const& rect) mutable
 		{
-		fprintf(output, "o BlockMask\n");
-		std::for_each(begin, end, [output, k=0](auto const& rect) mutable
-			{
-			auto mesh = makeBox(rect, 20, 5);
-			std::for_each(std::begin(mesh.verts), std::end(mesh.verts), [output](Vertex const& v)
-				{fprintf(output, "v %.15g %.15g %.15g\n", v.x, v.y, v.z);});
+		auto mesh = makeBox(rect, 20, 5);
+		std::for_each(std::begin(mesh.verts), std::end(mesh.verts), [output](Vertex const& v)
+			{fprintf(output, "v %.15g %.15g %.15g\n", v.x, v.y, v.z);});
 
-			std::for_each(std::begin(mesh.v_index), std::end(mesh.v_index), [output, k](auto const& f)
-				{fprintf(output, "f %d %d %d %d\n", f.v_index[0] + 1 + 8*k, f.v_index[1] + 1 + 8*k, f.v_index[2] + 1 + 8*k, f.v_index[3] + 1 + 8*k);});
-			++k;
-			});
-		}
+		std::for_each(std::begin(mesh.v_index), std::end(mesh.v_index), [output, k](auto const& f)
+			{fprintf(output, "f %d %d %d %d\n", f.v_index[0] + 1 + 8*k, f.v_index[1] + 1 + 8*k, f.v_index[2] + 1 + 8*k, f.v_index[3] + 1 + 8*k);});
+		++k;
+		});
 	}

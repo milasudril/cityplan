@@ -54,7 +54,8 @@ SimulationView& SimulationView::update()
 static void draw(Rectangle const& r, Dimension viewport, cairo_t* cr)
 	{
 	auto o = Vec2{0.5, 0.5}*viewport;
-	auto scale = 0.75*std::min(viewport.width(), viewport.height())/1300; // TODO: Set scale from ctrl
+	// TODO: Compute scale factor
+	auto scale = 0.75*std::min(viewport.width(), viewport.height())/1300;
 	auto o_x = o.width();  // Compute midpoint
 	auto o_y = o.height();
 

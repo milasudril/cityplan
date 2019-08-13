@@ -4,19 +4,18 @@
 
 #include "simulation.hpp"
 
-namespace Cityplan
+using namespace Cityplan;
+
+Cityplan::Simulation::Simulation(Dimension dim_min) : m_rng{"/dev/urandom"}, m_dim_min{dim_min}{}
+
+Cityplan::Simulation& Simulation::run()
 	{
-	Simulation::Simulation(Dimension dim_min) : m_rng{"/dev/urandom"}, m_dim_min{dim_min}{}
+	if(m_city.blockCount() == 0)
+		{return *this;}
 
-	Simulation& Simulation::run()
+	while(makeNewBlock(m_city, m_rng, [dim_min = m_dim_min](auto const& blocks_new)
 		{
-		if(m_city.blockCount() == 0)
-			{return *this;}
-
-		while(makeNewBlock(m_city, m_rng, [dim_min = m_dim_min](auto const& blocks_new)
-			{
-			return area(blocks_new.first) > area(Rectangle{dim_min});
-			}));
-		return *this;
-		}
+		return area(blocks_new.first) > area(Rectangle{dim_min});
+		}));
+	return *this;
 	}
