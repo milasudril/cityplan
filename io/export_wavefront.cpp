@@ -41,7 +41,7 @@ namespace
 
 	Octmesh makeBox(Rectangle const& r, double h_max, double margin)
 		{
-		auto h = std::min(sqrt(area(r)), h_max);
+		auto h = h_max;
 		auto d_half = Vec2{0.5, 0.5}*r.dimension();
 		auto pos = r.position();
 		Octmesh ret
@@ -65,7 +65,7 @@ void Cityplan::exportWavefront(Rectangle const* begin, Rectangle const* end, FIL
 	fprintf(output, "o BlockMask\n");
 	std::for_each(begin, end, [output, k=0](auto const& rect) mutable
 		{
-		auto mesh = makeBox(rect, 20, 5);
+		auto mesh = makeBox(rect, 100, 4.5);
 		std::for_each(std::begin(mesh.verts), std::end(mesh.verts), [output](Vertex const& v)
 			{fprintf(output, "v %.15g %.15g %.15g\n", v.x, v.y, v.z);});
 
