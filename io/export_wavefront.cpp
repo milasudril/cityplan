@@ -5,7 +5,7 @@
 #include "./export_wavefront.hpp"
 
 #include <algorithm>
-#include <cmath>
+#include <vector>
 
 using namespace Cityplan;
 
@@ -39,33 +39,51 @@ namespace
 
 	constexpr std::array<Quad, 6> Octmesh::v_index;
 
-	Octmesh makeBox(Rectangle const& r, double h_max, double margin)
+	Octmesh makeBox(std::array<Position, 4> const& face, double h)
 		{
-		auto h = h_max;
-		auto d_half = Vec2{0.5, 0.5}*r.dimension();
-		auto pos = r.position();
 		Octmesh ret
 			{
-			 Vertex{pos.x() - d_half.width() + margin, pos.y() - d_half.height() + margin, -h}
-			,Vertex{pos.x() + d_half.width() - margin, pos.y() - d_half.height() + margin, -h}
-			,Vertex{pos.x() + d_half.width() - margin, pos.y() + d_half.height() - margin, -h}
-			,Vertex{pos.x() - d_half.width() + margin, pos.y() + d_half.height() - margin, -h}
-			,Vertex{pos.x() - d_half.width() + margin, pos.y() - d_half.height() + margin, h}
-			,Vertex{pos.x() + d_half.width() - margin, pos.y() - d_half.height() + margin, h}
-			,Vertex{pos.x() + d_half.width() - margin, pos.y() + d_half.height() - margin, h}
-			,Vertex{pos.x() - d_half.width() + margin, pos.y() + d_half.height() - margin, h}
+			 Vertex{face[0].x(), face[0].y(), -h}
+			,Vertex{face[1].x(), face[1].y(), -h}
+ 			,Vertex{face[2].x(), face[2].y(), -h}
+ 			,Vertex{face[3].x(), face[3].y(), -h}
+			,Vertex{face[0].x(), face[0].y(),  h}
+			,Vertex{face[1].x(), face[1].y(),  h}
+ 			,Vertex{face[2].x(), face[2].y(),  h}
+ 			,Vertex{face[3].x(), face[3].y(),  h}
 			};
 
 		return ret;
 		}
+
+	std::vector<std::array<Position, 4>> generateFaces(Rectangle const* begin, Rectangle const* end, double margin)
+		{
+		std::vector<std::array<Position, 4>> ret;
+		std::transform(begin, end, std::back_inserter(ret),[margin](auto const& rect)
+			{
+			auto d_half = Vec2{0.5, 0.5}*(rect.dimension().offsetVector() - Vec2{margin, margin});
+			auto pos = rect.position();
+			auto min = pos - d_half;
+			auto max = pos + d_half;
+			return std::array<Position, 4>
+				{
+				 min
+				,Position{}.x(max.x()).y(min.y())
+				,max
+				,Position{}.x(min.x()).y(max.y())
+				};
+			});
+		return ret;
+		}
 	}
 
-void Cityplan::exportWavefront(Rectangle const* begin, Rectangle const* end, FILE* output)
+void Cityplan::exportWavefront(Rectangle const* a, Rectangle const* b, FILE* output)
 	{
+	auto faces = generateFaces(a, b, 9.0);
 	fprintf(output, "o BlockMask\n");
-	std::for_each(begin, end, [output, k=0](auto const& rect) mutable
+	std::for_each(begin(faces), end(faces), [output, k=0](auto const& plane) mutable
 		{
-		auto mesh = makeBox(rect, 100, 4.5);
+		auto mesh = makeBox(plane, 100);
 		std::for_each(std::begin(mesh.verts), std::end(mesh.verts), [output](Vertex const& v)
 			{fprintf(output, "v %.15g %.15g %.15g\n", v.x, v.y, v.z);});
 
